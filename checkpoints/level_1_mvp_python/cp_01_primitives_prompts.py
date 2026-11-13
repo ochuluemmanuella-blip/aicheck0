@@ -29,6 +29,7 @@ def format_system_prompt(role: str, context: str, query: str) -> str:
     Expected format:
     "Role: {role}\nContext: {context}\nQuery: {query}"
     """
+    return f"Role: {role.strip()}\nContext: {context.strip()}\nQuery: {query.strip()}"
     # TODO: Implement Exercise 01.01
     raise NotImplementedError
 
@@ -37,6 +38,11 @@ def format_system_prompt(role: str, context: str, query: str) -> str:
 def estimate_tokens(text: str) -> int:
     """Estimate token count using 1 token ~= 4 chars, rounded up. Return 0 for empty string."""
     # TODO: Implement Exercise 01.02
+    if text == "":
+        return 0
+    
+    result = len(text)/4
+    return math.ceil(result)
     raise NotImplementedError
     
 
@@ -44,7 +50,14 @@ def estimate_tokens(text: str) -> int:
 # Exercise 01.03: clean_generation
 def clean_generation(raw_output: str, stop_token: str = '<|endoftext|>') -> str:
     """Remove all occurrences of stop_token and truncate everything at/after '### END', then strip."""
+    position = raw_output.find(stop_token)
+    if position != -1:
+        return raw_output[:position].strip()
+    
+    
     # TODO: Implement Exercise 01.03
+
+
     raise NotImplementedError('Implement Exercise 01.03: clean_generation')
 
 
