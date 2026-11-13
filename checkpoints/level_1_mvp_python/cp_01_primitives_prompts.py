@@ -50,21 +50,19 @@ def estimate_tokens(text: str) -> int:
 # Exercise 01.03: clean_generation
 def clean_generation(raw_output: str, stop_token: str = '<|endoftext|>') -> str:
     """Remove all occurrences of stop_token and truncate everything at/after '### END', then strip."""
-    position = raw_output.find(stop_token)
+        # TODO: Implement Exercise 01.03
+    new_output =  raw_output.replace(stop_token, "").strip()
+
+    position = new_output.find("### END")
     if position != -1:
-        return raw_output[:position].strip()
-    
-    
-    # TODO: Implement Exercise 01.03
-
-
-    raise NotImplementedError('Implement Exercise 01.03: clean_generation')
-
+        return new_output[:position].strip()
 
 # Exercise 01.04: calculate_call_cost
 def calculate_call_cost(prompt_tokens: int, completion_tokens: int, input_price_per_m: float, output_price_per_m: float) -> float:
     """Compute total USD cost given per-1M-token rates, rounded to 6 decimal places."""
     # TODO: Implement Exercise 01.04
+    return (prompt_tokens/1000000)*2.50 + (completion_tokens/1000000)*10.00
+
     raise NotImplementedError('Implement Exercise 01.04: calculate_call_cost')
 
 

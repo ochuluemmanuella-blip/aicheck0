@@ -17,7 +17,7 @@ def test_ex_01_02_estimate_tokens():
 def test_ex_01_03_clean_generation():
     assert clean_generation("  42.<|endoftext|> ### END trailing") == "42."
     assert clean_generation("  42.<|endoftext|> ### END 25 <|endoftext|> trailing") == "42."
-    #assert clean_generation("  <|endoftext|> 42. ### END trailing") == "42."
+    assert clean_generation("  <|endoftext|>    <|endoftext|> 42. ### END trailing") == "42."
 
 def test_ex_01_04_calculate_call_cost():
     assert calculate_call_cost(1500, 500, 2.50, 10.00) == 0.00875
