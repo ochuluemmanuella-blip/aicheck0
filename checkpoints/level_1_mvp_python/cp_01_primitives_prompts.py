@@ -70,6 +70,20 @@ def calculate_call_cost(prompt_tokens: int, completion_tokens: int, input_price_
 def extract_code_block(llm_response: str, language: str = 'python') -> str:
     """Extract raw code inside ```{language} ... ``` or generic ``` ... ``` fences, or stripped string."""
     # TODO: Implement Exercise 01.05
+    for k in (f"```{language}", "```"):
+        bg = llm_response.find(k)
+        if bg != -1:
+            cd = llm_response.find("\n", bg+len(k))
+            if cd != -1:
+                cd += 1
+                end = llm_response.find("```", cd)
+                if end != -1:
+                    return llm_response[cd:end].strip()
+                
+
+    return llm_response.strip()
+
+
     raise NotImplementedError('Implement Exercise 01.05: extract_code_block')
 
 
@@ -77,6 +91,12 @@ def extract_code_block(llm_response: str, language: str = 'python') -> str:
 def clamp_temperature(temp: float | int) -> float:
     """Validate numeric type (reject bool/str with TypeError) and clamp to [0.0, 2.0]."""
     # TODO: Implement Exercise 01.06
+    if isinstance(temp, (bool, str)):
+        raise TypeError(f"cannot accept temp of type bool or str")
+    
+    return max(0.0, min(2.0, float(temp)))
+    
+
     raise NotImplementedError('Implement Exercise 01.06: clamp_temperature')
 
 
@@ -84,6 +104,14 @@ def clamp_temperature(temp: float | int) -> float:
 def wrap_untrusted_input(user_text: str, tag: str = 'user_input') -> str:
     """Escape existing <tag> or </tag> as &lt;tag&gt; and &lt;/tag&gt; and wrap in <tag>...</tag>."""
     # TODO: Implement Exercise 01.07
+    new_text = (
+        user_text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&#x27;")
+    )
+    return f"<{tag}>{new_text}</{tag}>"
     raise NotImplementedError('Implement Exercise 01.07: wrap_untrusted_input')
 
 
